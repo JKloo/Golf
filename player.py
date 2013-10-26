@@ -9,3 +9,4 @@ class Player:
         self.name = name
         self.seat = seat
         self.hand = Hand()
+        self.score = 0

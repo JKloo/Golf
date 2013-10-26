@@ -1,19 +1,22 @@
 #!/usr/bin/env python
 
 import random
-from card import Card
+import copy
+from card import Card, JOKER_CARD
 
 class Deck:
     ''' '''
     SUITS = 'HDSC'
-    NS = '123456789TJQKW'
+    NS = '123456789TJQK'
     def __init__(self):
         self.cards = []
-        self.discards = self.create(self.NS, self.SUITS)
+        self.discards = self.create(self.NS, self.SUITS, 2)
         
-    def create(self, ns, suits):
+    def create(self, ns, suits, njokers):
         ''' '''
-        return [Card(n,s) for n in ns for s in suits]
+        _cards = [Card(n,s) for n in ns for s in suits]
+        _cards.extend([copy.deepcopy(JOKER_CARD) for i in range(njokers)])
+        return _cards
 
     def shuffle(self):
         ''' '''
@@ -22,6 +25,8 @@ class Deck:
             random.shuffle(self.discards)
         self.cards.extend(self.discards)
         self.discards = []
+        for c in self.cards:
+            c.face_down()
 
     def draw(self, n=1):
         ''' '''
