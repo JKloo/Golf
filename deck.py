@@ -32,5 +32,9 @@ class Deck:
         ''' '''
         if self.cards:
             return [self.cards.pop(0) for x in range(n)]
+        elif self.discards:
+            print 'shuffling'
+            self.shuffle()
+            self.draw(n)
         else:
             raise ValueError('empty stack!')

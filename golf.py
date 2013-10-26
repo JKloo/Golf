@@ -13,7 +13,7 @@ TOP = ['t', 'top']
 SWAP = ['s', 'swap']
 HAND = ['h', 'hand']
 LOOK = ['l', 'look']
-SEP = '============================='
+SEP = '=========================================================='
 _NO_END_GAME = -1
 
 
@@ -67,9 +67,9 @@ def play(game):
                 game.deck.discards.append(active_card)
                 active_card = game.deck.draw()[0]
                 active_card.face_up()
-                logging.info(str(active_card))
+                logging.info(active_card.pretty_print())
             elif in_ in TOP:
-                logging.info(str(active_card))
+                logging.info(active_card.pretty_print())
             elif in_ in SWAP:
                 pos = int(raw_input('>> pos: '))
                 active_card = game.curr_plr.hand.swap(pos, active_card)
@@ -115,7 +115,8 @@ def _detect_end_game(game):
 def _hand(p):
     ''' '''
     logging.info('{0}\'s hand:'.format(p.name))
-    logging.info(str(p.hand))
+    # logging.info(str(p.hand))
+    logging.info(p.hand.pretty_print())
 
 def _look(players):
     ''' '''
@@ -125,9 +126,13 @@ def _look(players):
 def _score(hand):
     ''' Compute a player's score. '''
     _s = 0
-    for x, y in hand.pairs:
-        if not hand.match(x, y):
-            _s += int(hand.cards[x]) + int(hand.cards[y])
+    for cs in hand.blocks:
+        if hand.match(*cs):
+            _s -= 20
+
+    for cs in hand.pairs:
+        if not hand.match(*cs):
+            _s += sum([int(hand.cards[x]) for x in cs])
     return _s
 
 if __name__ == '__main__':

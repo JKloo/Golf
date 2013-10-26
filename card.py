@@ -1,12 +1,31 @@
 _JOKER = 'W'
+_WIDTH = 8
+_SPACE = ''.join([' ' for i in range(_WIDTH)])
 _PRETTY = '\
-+-------+\n\
++--------+\n\
 |        |\n\
-|        |\n\
-| A of B |\n\
-|        |\n\
+|{0}|\n\
+|   of   |\n\
+|{1}|\n\
 |        |\n\
 +--------+'
+
+_BLANK = '\
++--------+\n\
+|XXXXXXXX|\n\
+|XXXXXXXX|\n\
+|XXXXXXXX|\n\
+|XXXXXXXX|\n\
+|XXXXXXXX|\n\
++--------+'
+
+def _pad(s, l):
+    if len(s) < l:
+        s = ' ' + s + ' '
+        return _pad(s, l) 
+    else:
+        return s[:8]
+
 class Card:
     ''' '''
     SUITS = {'H': 'Hearts', 'D': 'Diamonds', 'C': 'Clubs', 'S': 'Spades', _JOKER: 'Wild'}
@@ -27,6 +46,26 @@ class Card:
 
     def __int__(self):
         return self.get_points()
+
+    def __eq__(self, other):
+        ''' '''
+        if isinstance(other, Card):
+            return self.get_name() == other.get_name()
+        return NotImplemented
+
+    def __ne__(self, other):
+        ''' '''
+        r = self.__eq__(other)
+        if r is NotImplemented:
+            return r
+        return not r
+
+    def pretty_print(self):
+        ''' '''
+        if self._up:
+            return _PRETTY.format(_pad(self.n, _WIDTH), _pad(self.suit, _WIDTH))
+        else:
+            return _BLANK
 
     def face_up(self):
         self._up = True
