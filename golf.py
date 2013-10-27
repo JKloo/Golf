@@ -32,9 +32,8 @@ def setup():
     game.deck.shuffle()
     game.begin()
     game.deal()
-    logging.info('%d cards in deck' % len(game.deck.cards))
-    logging.info('%d cards in discard' % len(game.deck.discards))
-    _look(game.players)
+    logging.debug('%d cards in deck' % len(game.deck.cards))
+    logging.debug('%d cards in discard' % len(game.deck.discards))
     return game
 
 def play(game):
@@ -44,7 +43,9 @@ def play(game):
     for p in game.players:
         logging.info('{0}, choose two cards to flip:'.format(p.name))
         a = int(raw_input('>> card 1: '))
-        b = int(raw_input('>> card 2: '))
+        b = a
+        while a == b or b not in range(6):
+            b = int(raw_input('>> card 2: '))
         p.hand.cards[a].face_up()
         p.hand.cards[b].face_up()
 
@@ -129,7 +130,6 @@ def _score(hand):
     for cs in hand.blocks:
         if hand.match(*cs):
             _s -= 20
-
     for cs in hand.pairs:
         if not hand.match(*cs):
             _s += sum([int(hand.cards[x]) for x in cs])
