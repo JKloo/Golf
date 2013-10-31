@@ -3,12 +3,11 @@ import threading
 import time
 import pickle
 import logging
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.DEBUG, format='%(message)s')
 
-from settings import PACKET_SIZE, EXTERN_HOST, PORT
+from settings import PACKET_SIZE, EXTERN_HOST, PORT, PROMPT
 import user_settings
 PROFILE = {'name': 'Jeff'}
-PROMPT = '> '
 
 class GolfClient(threading.Thread):
     ''' '''

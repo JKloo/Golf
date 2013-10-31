@@ -16,11 +16,11 @@ LOOK = ['l', 'look']
 SEP = '=========================================================='
 _NO_END_GAME = -1
 
+MIN_PLRS = 1
+MAX_PLRS = 4
 
 def setup():
     ''' '''
-    MIN_PLRS = 1
-    MAX_PLRS = 4
     n = MIN_PLRS - 1
     while not (MIN_PLRS <= n <= MAX_PLRS):
         n = int(raw_input('How many players: '))
