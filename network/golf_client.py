@@ -1,9 +1,14 @@
 import socket
 import threading
 import time
+import pickle
+import logging
+logging.basicConfig(level=logging.INFO, format='%(message)s')
 
-from player import Player
-from golf_server import MAXPACKETSIZE, HOST, PORT
+from settings import PACKET_SIZE, EXTERN_HOST, PORT
+import user_settings
+PROFILE = {'name': 'Jeff'}
+PROMPT = '> '
 
 class GolfClient(threading.Thread):
     ''' '''
@@ -12,70 +17,56 @@ class GolfClient(threading.Thread):
         Initializes...everything.  
         '''
         threading.Thread.__init__(self)
-        self.HOST = HOST
-        self.PORT = PORT
-        self.ADDRESS = (self.HOST, self.PORT)
-        self.stopreceivethread = True
+        self.ADDRESS = (EXTERN_HOST, PORT)
         self.daemon = True
-        self.TIMEOUT = 3.0
 
         # SOCK_DGRAM is the socket type to use for UDP sockets
         # AF_INET sets it to use UDP protocol
-        self.SOCK = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
         #so the os doesn't complain
-        self.SOCK.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-
-        #sets socket to be blocking along with a timeout, if can't be sent to received within 5 seconds then the timeout exception is raised
-        self.SOCK.setblocking(1)
-        self.SOCK.settimeout(self.TIMEOUT)
+        self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
         #Find the server
-        self.SOCK.sendto("Hello!", self.ADDRESS)
-        
-        while not self.ISCONNECTED:
-            try:
-                self.SOCK.sendto(self.PAYLOAD,self.HOSTPORT)
-                data, addr = self.SOCK.recvfrom(32)
-                if data.strip() == 'hello client':
-                    self.ISCONNECTED = True
-                    self.stopreceivethread = False
-                    break 
-                time.sleep(0.3)
-            except timeout:
-                continue
-
-    def send(self):
-        '''
-        sends whatever is in self.PAYLOAD. calls helpersend if it is large message.  Sends 'done' at the end of a packet
-        '''
-        
-        if len(self.PAYLOAD) <= 0:
-            return
-        
-        
-        elif len(self.PAYLOAD)<=self.MAXPACKETSIZE:
-            self.SOCK.sendto(self.PAYLOAD,self.HOSTPORT)
-            self.SOCK.sendto('done',(self.HOST,self.PORT))
-        else:
-            self.SOCK.sendto(self.PAYLOAD[:self.MAXPACKETSIZE], self.HOSTPORT)
-            self.helpersend(self.PAYLOAD[self.MAXPACKETSIZE:])
+        self.s.connect(self.ADDRESS)
+        # self.s.sendall(pickle.dumps(PROFILE))
+        self.start()
 
     def run(self):
         '''
         implementation of the inherited run() method from the Thread class.  
         This is a separate thread from the main thread that is always receiving information
         '''
-        while not self.stopreceivethread:
-            self.receive(self.MAXPACKETSIZE)
+        logging.debug('starting receive thread')
+        while True:
+            msg = self.s.recv(PACKET_SIZE)
+            logging.debug('received message')
+            self._handle_message(msg)
+        logging.debug('stopping receive thread')
+
+    def _handle_message(self, msg):
+        ''' '''
+        print msg
    
-    def cleanup(self):
-        '''
-        stops closes the socket and stops the receive thread
-        '''
-        self.ISCONNECTED = False
-        self.stopreceivethread = True 
-        self.SOCK.close()
+    def run_send(self):
+        ''' '''
+        logging.debug('starting send thread')
+        while True:
+            in_ = self._get_input()
+            logging.debug('got input: {0}'.format(in_))
+            self.s.sendall(in_)
+            logging.debug('sent message')
+        logging.debug('stopping send thread')
 
-    
 
+    def _get_input(self):
+        ''' '''
+        in_ = str(raw_input(PROMPT))
+        return in_
+
+    def send(self, msg):
+        ''' '''
+        self.s.sendall(msg, self.ADDRESS)
+
+GC = GolfClient()
+GC.run_send()

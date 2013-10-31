@@ -1,11 +1,12 @@
 import socket
 import threading
 import time
-import golf
-from game import Game
+# import golf
+# from game import Game
 
-MAXPACKETSIZE = 1024
-HOST = 'localhost'
+PACKET_SIZE = 1024
+HOST = ''
+EXTERN_HOST = 'localhost'
 PORT = 21567
 
 class GolfServer(threading.Thread):
