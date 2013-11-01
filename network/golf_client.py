@@ -1,23 +1,24 @@
+import sys
 import socket
 import threading
 import time
-import pickle
 import logging
+from select import select
 logging.basicConfig(level=logging.DEBUG, format='%(message)s')
 
 from settings import PACKET_SIZE, EXTERN_HOST, PORT, PROMPT
-import user_settings
-PROFILE = {'name': 'Jeff'}
 
-class GolfClient(threading.Thread):
+TIME_OUT = 0.001
+
+class GolfClient():
     ''' '''
     def __init__(self):
         '''
         Initializes...everything.  
         '''
-        threading.Thread.__init__(self)
         self.ADDRESS = (EXTERN_HOST, PORT)
-        self.daemon = True
+        self.shutdown = False
+        self.input = []
 
         # SOCK_DGRAM is the socket type to use for UDP sockets
         # AF_INET sets it to use UDP protocol
@@ -28,44 +29,78 @@ class GolfClient(threading.Thread):
 
         #Find the server
         self.s.connect(self.ADDRESS)
-        # self.s.sendall(pickle.dumps(PROFILE))
-        self.start()
+        self.task_i = threading.Thread(target=self.get_input, name='I')
+        self.task_i.daemon = True
+        self.task_i.start()
 
-    def run(self):
-        '''
-        implementation of the inherited run() method from the Thread class.  
-        This is a separate thread from the main thread that is always receiving information
-        '''
+        self.task_r = threading.Thread(target=self.receive, name='R')
+        self.task_r.daemon = True
+        self.task_r.start()
+
+
+    def receive(self):
         logging.debug('starting receive thread')
-        while True:
+        while not self.shutdown:
             msg = self.s.recv(PACKET_SIZE)
             logging.debug('received message')
-            self._handle_message(msg)
+            logging.debug('waht?!?!?')
+            if msg:
+                self._handle_message(msg)
+            else:
+                self.shutdown = True
+                break
         logging.debug('stopping receive thread')
+        logging.info('game server closed')
+
 
     def _handle_message(self, msg):
         ''' '''
-        print msg
-   
-    def run_send(self):
+        if msg == '$@#$RQEGWBFHT^%#$@REQWDFRGTY$Y@$GQEA':
+            self.shutdown = True
+        else:
+            print msg
+
+
+    def main(self):
         ''' '''
         logging.debug('starting send thread')
-        while True:
-            in_ = self._get_input()
-            logging.debug('got input: {0}'.format(in_))
-            self.s.sendall(in_)
-            logging.debug('sent message')
+        while not self.shutdown:
+            if self.input:
+                in_ = self.input.pop(0).strip()
+                self.s.sendall(in_)
+                logging.debug('sent message')
+            time.sleep(0.1)
         logging.debug('stopping send thread')
+        self.task_r.join()
 
-
-    def _get_input(self):
+    def get_input(self):
         ''' '''
-        in_ = str(raw_input(PROMPT))
-        return in_
+        while not self.shutdown:
+            in_ = ''# in_ = str(raw_input(PROMPT))
+            rlist, wlist, _ = select([sys.stdin], [sys.stdout], [])
+            if rlist:
+                in_ = sys.stdin.readline()
+                self.input.append(in_)
+                logging.debug('got input: {0}'.format(in_))
+
 
     def send(self, msg):
         ''' '''
         self.s.sendall(msg, self.ADDRESS)
 
+    def _main(self):
+        ''' '''
+        while not self.shutdown:
+            in_ = ''# in_ = str(raw_input(PROMPT))
+            rlist, wlist, _ = select([sys.stdin, self.s], [sys.stdout], [])
+            if rlist:
+                in_ = sys.stdin.readline()
+                self.s.sendall(in_)
+                # logging.debug('got input: {0}'.format(in_))
+
+
 GC = GolfClient()
-GC.run_send()
+GC.main()
+while True:
+    print 'I', GC.task_i.is_alive()
+    print 'R', GC.task_r.is_alive()
