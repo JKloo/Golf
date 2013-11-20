@@ -1,8 +1,8 @@
 {
-	"folders":
-	[
-		{
-			"path": "/C/Projects/Golf"
-		}
-	]
+    "folders":
+    [
+        {
+            "path": "."
+        }
+    ]
 }
