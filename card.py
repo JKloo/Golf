@@ -19,6 +19,11 @@ _BLANK = '\
 |XXXXXXXX|\n\
 +--------+'
 
+SPADE = u'\u2660'
+HEART = u'\u2661'
+DIAMOND = u'\u2662'
+CLUB = u'\u2663'
+
 def _pad(s, l):
     if len(s) < l:
         s = ' ' + s + ' '
