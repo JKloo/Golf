@@ -1,7 +1,5 @@
 from hand import Hand
 
-NO_PLAYER = -1
-
 class Player:
     ''' '''
     def __init__(self, name, seat):
@@ -10,3 +8,6 @@ class Player:
         self.seat = seat
         self.hand = Hand()
         self.score = 0
+        self.other = {}
+
+NO_PLAYER = Player('', -1)
