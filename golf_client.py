@@ -6,7 +6,7 @@ import logging
 from select import select
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
-from settings import PACKET_SIZE, EXTERN_HOST, PORT, PROMPT
+from config.settings import PACKET_SIZE, EXTERN_HOST, PORT, PROMPT
 
 TIME_OUT = 0.001
 
@@ -55,10 +55,7 @@ class GolfClient():
 
     def _handle_message(self, msg):
         ''' '''
-        if msg == '$@#$RQEGWBFHT^%#$@REQWDFRGTY$Y@$GQEA':
-            self.shutdown = True
-        else:
-            print msg
+        print msg
 
 
     def main(self):

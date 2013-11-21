@@ -4,7 +4,7 @@ import sys
 import logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
-from game import Game
+from cardgame.game import Game
 
 NEXT = ['n', 'next']
 QUIT = ['q', 'quit']

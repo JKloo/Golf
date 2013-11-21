@@ -9,9 +9,9 @@ import time
 import logging
 logging.basicConfig(level=logging.DEBUG, format='%(message)s')
 
-from settings import HOST, PORT, PACKET_SIZE, PROMPT, MIN_PLRS, MAX_PLRS
-from commands import CHAT, NEXT, QUIT, DRAW, TOP, SWAP, HAND, LOOK
-from game import Game
+from config.settings import HOST, PORT, PACKET_SIZE, PROMPT, MIN_PLRS, MAX_PLRS
+from config.commands import CHAT, NEXT, QUIT, DRAW, TOP, SWAP, HAND, LOOK
+from cardgame.game import Game
 
 ID_K = 'id'
 CONN_K = 'conn'
