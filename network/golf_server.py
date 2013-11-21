@@ -48,6 +48,7 @@ class GolfServer():
     def _init_server(self):
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.s.setblocking(0)  # non-blocking socket
         self.s.bind((HOST, PORT))
         self.connections = []
 
@@ -55,14 +56,18 @@ class GolfServer():
     def _init_players(self):
         while len(self.connections) < self.nplayers:
             self.s.listen(1)
-            conn, addr = self.s.accept()
-            self.connections.append((conn, addr))
-            logging.debug('Connected by {0}'.format(addr))
-            kwargs = {ID_K: self.connections.index((conn, addr))}
-            task_p = threading.Thread(target=self._init_player, kwargs=kwargs)
-            task_p.daemon = True
-            task_p.start()
-            self.tasks.append(task_p)
+            try:
+                conn, addr = self.s.accept()
+            except socket.error:
+                pass
+            else:
+                self.connections.append((conn, addr))
+                logging.debug('Connected by {0}'.format(addr))
+                kwargs = {ID_K: self.connections.index((conn, addr))}
+                task_p = threading.Thread(target=self._init_player, kwargs=kwargs)
+                task_p.daemon = True
+                task_p.start()
+                self.tasks.append(task_p)
         logging.debug("All players connected!")
 
 
@@ -188,12 +193,25 @@ class GolfServer():
 
 
     def send(self, id_, msg):
+        while True:
+            try:
+                self._send(id_, msg)
+            except socket.error:
+                pass
+            else:
+                break
+
+
+
+    def _send(self, id_, msg):
         self._get_conn(id_).sendall(msg)
+
 
     def send_global(self, msg, sender):
         for i in range(len(self.connections)):
             if i != sender:
                 self.send(i, msg)
+
 
     def prompt(self, id_, prompt='', cast=str):
         self.send(id_, prompt)
@@ -201,8 +219,15 @@ class GolfServer():
 
 
     def listen(self, id_, cast=str):
-        return cast(self._get_input(id_))
-
+        while True:
+            try:
+                return cast(self._get_input(id_))
+            except socket.error:
+                pass
+            except:
+                self.send(id_, 'Bad input!')
+            else:
+                break
 
     def _get_input(self, id_):
         return self._get_conn(id_).recv(PACKET_SIZE)
@@ -264,9 +289,11 @@ class GolfServer():
         winner = self.game.players[scores.index(min(scores))]
         logging.info('The winner is: {0}!'.format(winner.name))
         self.send_global('The winner is: {0}!'.format(winner.name), None)
-        self.send_global('$@#$RQEGWBFHT^%#$@REQWDFRGTY$Y@$GQEA', None)
+        # self.send_global('$@#$RQEGWBFHT^%#$@REQWDFRGTY$Y@$GQEA', None)
         self.s.shutdown(socket.SHUT_RDWR)
         self.s.close()
+        for t in self.tasks:
+            t.join()
 
 ES = GolfServer()
 ES.play()

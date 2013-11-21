@@ -4,7 +4,7 @@ import threading
 import time
 import logging
 from select import select
-logging.basicConfig(level=logging.DEBUG, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format='%(message)s')
 
 from settings import PACKET_SIZE, EXTERN_HOST, PORT, PROMPT
 
@@ -41,7 +41,7 @@ class GolfClient():
     def receive(self):
         logging.debug('starting receive thread')
         while not self.shutdown:
-            msg = self.s.recv(PACKET_SIZE)
+            msg = self.s.recv(PACKET_SIZE).strip()
             logging.debug('received message')
             logging.debug('waht?!?!?')
             if msg:
@@ -101,6 +101,3 @@ class GolfClient():
 
 GC = GolfClient()
 GC.main()
-while True:
-    print 'I', GC.task_i.is_alive()
-    print 'R', GC.task_r.is_alive()
