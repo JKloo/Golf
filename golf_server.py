@@ -1,4 +1,4 @@
-# Echo server program
+#!/usr/bin/python
 import os
 import sys
 import socket
@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.DEBUG, format='%(message)s')
 
 from config.settings import HOST, PORT, PACKET_SIZE, PROMPT, MIN_PLRS, MAX_PLRS
 from config.commands import CHAT, NEXT, QUIT, DRAW, TOP, SWAP, HAND, LOOK
-from cardgame.game import Game
+from golf.golf_game import GolfGame
 
 ID_K = 'id'
 CONN_K = 'conn'
@@ -102,7 +102,7 @@ class GolfServer():
 
     def _init_game(self):
         '''  '''
-        game = Game(self.nplayers)
+        game = GolfGame(self.nplayers)
         game.begin(6)
         self.active_card = game.deck.draw()[0]
         self.active_card.face_up()
@@ -242,21 +242,10 @@ class GolfServer():
 
     def score(self):
         ''' Compute and display the scores. '''
-        def _score(hand):
-            ''' Compute a player's score. '''
-            _s = 0
-            for cs in hand.blocks:
-                if hand.match(*cs):
-                    _s -= 20
-            for cs in hand.pairs:
-                if not hand.match(*cs):
-                    _s += sum([int(hand.cards[x]) for x in cs])
-            return _s
-
         logging.info('Game over.')
         for p in self.game.players:
             p.hand.flip_all()
-            p.score = _score(p.hand)
+            p.score = p.hand.score()
             self.send_global('{0}\'s hand:\n{1}'.format(p.name, self._look_hand(p)), None)
             logging.info('{0}\'s score: {1}'.format(p.name, p.score))
             self.send_global('{0}\'s score: {1}'.format(p.name, p.score), None)

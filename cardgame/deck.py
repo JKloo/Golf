@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 
 import random
 import copy
@@ -10,9 +10,9 @@ class Deck:
     SUITS = 'HDSC'
     NS = '123456789TJQK'
 
-    def __init__(self):
+    def __init__(self, ns=NS, suits=SUITS, njokers=0):
         self.cards = []
-        self.discards = self.create(self.NS, self.SUITS, 2)
+        self.discards = self.create(ns, suits, njokers)
 
     def create(self, ns, suits, njokers):
         ''' '''

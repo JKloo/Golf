@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
+
 from copy import deepcopy
 from player import Player, NO_PLAYER
 from deck import Deck

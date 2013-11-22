@@ -13,9 +13,9 @@ TIME_OUT = 0.001
 
 class GolfClient():
     ''' '''
-    def __init__(self):
+    def __init__(self, host=EXTERN_HOST, port=PORT):
         ''' Initializes...everything. '''
-        self.ADDRESS = (EXTERN_HOST, PORT)
+        self.ADDRESS = (host, port)
         self.shutdown = False
         self.input = []
 
@@ -90,5 +90,6 @@ class GolfClient():
                 self.s.sendall(in_)
 
 
-GC = GolfClient()
-GC.main()
+if __name__ == '__main__':
+    GC = GolfClient()
+    GC.main()
