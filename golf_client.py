@@ -91,5 +91,13 @@ class GolfClient():
 
 
 if __name__ == '__main__':
-    GC = GolfClient()
+    host = sys.argv.get(1)
+    port = sys.argv.get(2)
+    try:
+        GC = GolfClient(host=host, port=port)
+    except:
+        try:
+            GC = GolfClient(host=host)
+        except:
+            GC = GolfClient()
     GC.main()
