@@ -1,4 +1,4 @@
-CHAT = ['c', 'chat'] 
+CHAT = ['c', 'chat']
 CHAT_P = r'@([\w]+): (.+)'
 NEXT = ['p', 'pass']
 QUIT = ['q', 'quit']

@@ -24,12 +24,13 @@ NO_MSG = ''
 POLL_TIME = 0.1
 GLOBAL_CHAT = ['global', 'all']
 
+
 class GolfServer():
     def __init__(self, n=0):
         ''' '''
         if not (MIN_PLRS <= n <= MAX_PLRS):
             while not (MIN_PLRS <= n <= MAX_PLRS):
-                n = int(raw_input('How many players: ')) 
+                n = int(raw_input('How many players: '))
         self.nplayers = n
         self.tasks = []
         self.end_game = False
@@ -41,15 +42,12 @@ class GolfServer():
         self._init_players()
         self.game_start = True
 
-
-
     def _init_server(self):
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.s.setblocking(0)  # non-blocking socket
         self.s.bind((HOST, PORT))
         self.connections = []
-
 
     def _init_players(self):
         while len(self.connections) < self.nplayers:
@@ -67,7 +65,6 @@ class GolfServer():
                 task_p.start()
                 self.tasks.append(task_p)
         logging.debug("All players connected!")
-
 
     def _init_player(self, **kwargs):
         # prompt for name
@@ -90,7 +87,7 @@ class GolfServer():
                 except:
                     continue
                 else:
-                    cards.append(c_int) 
+                    cards.append(c_int)
 
         for i in cards:
             self.game.players[id_].hand.cards[i].face_up()
@@ -103,7 +100,6 @@ class GolfServer():
         self.tasks.append(task)
         # end thread
 
-
     def _init_game(self):
         '''  '''
         game = Game(self.nplayers)
@@ -111,7 +107,6 @@ class GolfServer():
         self.active_card = game.deck.draw()[0]
         self.active_card.face_up()
         self.game = game
-
 
     def _manage_player(self, **kwargs):
         id_ = kwargs.get(ID_K)
@@ -130,7 +125,6 @@ class GolfServer():
                     resp = self._manage_inactive(id_, msg)
                 self.send(id_, resp)
 
-
     def _manage_chat(self, id_):
         ''' '''
         trg = self.prompt(id_, 'who? ')
@@ -143,7 +137,6 @@ class GolfServer():
             # silently don't send if the player doesn't exist
                 for p in plrs:
                     self.send(p.seat, msg)
-
 
     def _manage_active(self, id_, msg):
         ''' '''
@@ -158,7 +151,7 @@ class GolfServer():
 
         elif msg in TOP:
             resp = self.active_card.pretty_print()
-            
+
         elif msg in SWAP:
             pos = self.prompt(id_, 'pos: ', int)
             self.active_card = plr.hand.swap(pos, self.active_card)
@@ -179,7 +172,6 @@ class GolfServer():
         logging.debug(resp)
         return resp
 
-
     def _manage_inactive(self, id_, msg):
         ''' '''
         invalid_cmds = [SWAP, NEXT, DRAW]
@@ -188,7 +180,6 @@ class GolfServer():
             return 'Wait your turn!'
         else:
             return self._manage_active(id_, msg)
-
 
     def send(self, id_, msg):
         while True:
@@ -199,22 +190,17 @@ class GolfServer():
             else:
                 break
 
-
-
     def _send(self, id_, msg):
         self._get_conn(id_).sendall(msg)
-
 
     def send_global(self, msg, sender):
         for i in range(len(self.connections)):
             if i != sender:
                 self.send(i, msg)
 
-
     def prompt(self, id_, prompt='', cast=str):
         self.send(id_, prompt)
         return self.listen(id_, cast)
-
 
     def listen(self, id_, cast=str):
         while True:
@@ -230,16 +216,13 @@ class GolfServer():
     def _get_input(self, id_):
         return self._get_conn(id_).recv(PACKET_SIZE)
 
-
     def _get_conn(self, id_):
         return self.connections[id_][0]
-
 
     def _look_hand(self, p):
         ''' '''
         resp = '{0}\'s hand:\n{1}'.format(p.name, p.hand.pretty_print())
         return resp
-
 
     def _look_board(self, players):
         ''' '''
@@ -248,19 +231,14 @@ class GolfServer():
             resp = resp + self._look_hand(p)
         return resp
 
-
     def _detect_end_game(self):
         ''' Detect the end of the game by checking if all cards are flipped. '''
         return not (False in [c.is_face_up() for c in self.game.curr_plr.hand.cards])
 
-
     def play(self):
         ''' '''
-        while not self.end_game: time.sleep(0.1)
-            # in_ = raw_input(PROMPT)
-            # for i in range(len(ES.connections)):
-            #     self.send(i, in_)
-
+        while not self.end_game:
+            time.sleep(0.1)
 
     def score(self):
         ''' Compute and display the scores. '''
@@ -287,14 +265,16 @@ class GolfServer():
         winner = self.game.players[scores.index(min(scores))]
         logging.info('The winner is: {0}!'.format(winner.name))
         self.send_global('The winner is: {0}!'.format(winner.name), None)
-        # self.send_global('$@#$RQEGWBFHT^%#$@REQWDFRGTY$Y@$GQEA', None)
         self.s.shutdown(socket.SHUT_RDWR)
         self.s.close()
         for t in self.tasks:
             t.join()
 
-ES = GolfServer()
-ES.play()
-ES.score()
-for t in ES.tasks:
-    print t.name, t.is_alive()
+
+if __name__ == '__main__':
+    ES = GolfServer()
+    ES.play()
+    ES.score()
+    for t in ES.tasks:
+        logging.debug(t.name)
+        logging.debug(t.is_alive())

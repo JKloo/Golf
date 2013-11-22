@@ -4,24 +4,26 @@ import random
 import copy
 from card import Card, JOKER_CARD
 
+
 class Deck:
     ''' '''
     SUITS = 'HDSC'
     NS = '123456789TJQK'
+
     def __init__(self):
         self.cards = []
         self.discards = self.create(self.NS, self.SUITS, 2)
-        
+
     def create(self, ns, suits, njokers):
         ''' '''
-        _cards = [Card(n,s) for n in ns for s in suits]
+        _cards = [Card(n, s) for n in ns for s in suits]
         _cards.extend([copy.deepcopy(JOKER_CARD) for i in range(njokers)])
         return _cards
 
     def shuffle(self):
         ''' '''
         # shuffle between 4 and 10 times
-        for i in range(random.randrange(4,10)):
+        for i in range(random.randrange(4, 10)):
             random.shuffle(self.discards)
         self.cards.extend(self.discards)
         self.discards = []

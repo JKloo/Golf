@@ -3,6 +3,7 @@ from copy import deepcopy
 from player import Player, NO_PLAYER
 from deck import Deck
 
+
 class Game:
     ''' '''
     def __init__(self, nplayers, ndecks=1):
@@ -35,5 +36,5 @@ class Game:
         id_ = self.players.index(self.curr_plr)
         id_ += 1
         if id_ >= len(self.players):
-            id_ = 0      
+            id_ = 0
         self.curr_plr = self.players[id_]

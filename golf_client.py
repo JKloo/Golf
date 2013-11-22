@@ -10,12 +10,11 @@ from config.settings import PACKET_SIZE, EXTERN_HOST, PORT, PROMPT
 
 TIME_OUT = 0.001
 
+
 class GolfClient():
     ''' '''
     def __init__(self):
-        '''
-        Initializes...everything.  
-        '''
+        ''' Initializes...everything. '''
         self.ADDRESS = (EXTERN_HOST, PORT)
         self.shutdown = False
         self.input = []
@@ -37,7 +36,6 @@ class GolfClient():
         self.task_r.daemon = True
         self.task_r.start()
 
-
     def receive(self):
         logging.debug('starting receive thread')
         while not self.shutdown:
@@ -52,11 +50,9 @@ class GolfClient():
         logging.debug('stopping receive thread')
         logging.info('game server closed')
 
-
     def _handle_message(self, msg):
         ''' '''
         print msg
-
 
     def main(self):
         ''' '''
@@ -73,13 +69,12 @@ class GolfClient():
     def get_input(self):
         ''' '''
         while not self.shutdown:
-            in_ = ''# in_ = str(raw_input(PROMPT))
+            in_ = ''
             rlist, wlist, _ = select([sys.stdin], [sys.stdout], [])
             if rlist:
                 in_ = sys.stdin.readline()
                 self.input.append(in_)
                 logging.debug('got input: {0}'.format(in_))
-
 
     def send(self, msg):
         ''' '''
@@ -88,12 +83,11 @@ class GolfClient():
     def _main(self):
         ''' '''
         while not self.shutdown:
-            in_ = ''# in_ = str(raw_input(PROMPT))
+            in_ = ''
             rlist, wlist, _ = select([sys.stdin, self.s], [sys.stdout], [])
             if rlist:
                 in_ = sys.stdin.readline()
                 self.s.sendall(in_)
-                # logging.debug('got input: {0}'.format(in_))
 
 
 GC = GolfClient()

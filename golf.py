@@ -19,6 +19,7 @@ _NO_END_GAME = -1
 MIN_PLRS = 1
 MAX_PLRS = 4
 
+
 def setup():
     ''' '''
     n = MIN_PLRS - 1
@@ -35,6 +36,7 @@ def setup():
     logging.debug('%d cards in deck' % len(game.deck.cards))
     logging.debug('%d cards in discard' % len(game.deck.discards))
     return game
+
 
 def play(game):
     ''' '''
@@ -86,6 +88,7 @@ def play(game):
         game.next_player()
     return game
 
+
 def score(game):
     ''' Compute and display the scores. '''
     logging.info('Game over.')
@@ -98,13 +101,16 @@ def score(game):
     winner = game.players[scores.index(min(scores))]
     logging.info('The winner is: {0}!'.format(winner.name))
 
+
 def _player_input():
     return raw_input('>> ')
+
 
 def _quit():
     ''' '''
     logging.info('Quitting Game...')
     sys.exit(0)
+
 
 def _detect_end_game(game):
     ''' Detect the end of the game by checking if all cards are flipped. '''
@@ -113,16 +119,18 @@ def _detect_end_game(game):
     else:
         return game.curr_plr.seat
 
+
 def _hand(p):
     ''' '''
     logging.info('{0}\'s hand:'.format(p.name))
-    # logging.info(str(p.hand))
     logging.info(p.hand.pretty_print())
+
 
 def _look(players):
     ''' '''
     for p in players:
         _hand(p)
+
 
 def _score(hand):
     ''' Compute a player's score. '''
@@ -134,6 +142,7 @@ def _score(hand):
         if not hand.match(*cs):
             _s += sum([int(hand.cards[x]) for x in cs])
     return _s
+
 
 if __name__ == '__main__':
     game = setup()
