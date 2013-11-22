@@ -8,7 +8,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG, format='%(message)s')
 
 from config.settings import HOST, PORT, PACKET_SIZE, PROMPT, MIN_PLRS, MAX_PLRS
-from config.commands import CHAT, NEXT, QUIT, DRAW, TOP, SWAP, HAND, LOOK
+from config.commands import CHAT, NEXT, QUIT, DRAW, TOP, SWAP, HAND, LOOK, HELP
 from golf.golf_game import GolfGame
 
 ID_K = 'id'
@@ -169,12 +169,16 @@ class GolfServer():
             self.end_game = self._detect_end_game()
             self.drawn = False
 
+        elif msg in HELP:
+            for c in [CHAT, NEXT, QUIT, DRAW, TOP, SWAP, HAND, LOOK, HELP]:
+                self.send(id_, str(c))
+
         logging.debug(resp)
         return resp
 
     def _manage_inactive(self, id_, msg):
         ''' '''
-        invalid_cmds = [SWAP, NEXT, DRAW]
+        invalid_cmds = [SWAP.cmds, NEXT.cmds, DRAW.cmds]
         flat_ics = [x for xs in invalid_cmds for x in xs]
         if msg in flat_ics:
             return 'Wait your turn!'
