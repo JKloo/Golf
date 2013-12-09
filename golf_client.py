@@ -7,7 +7,7 @@ from select import select
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
 from config.settings import PACKET_SIZE, EXTERN_HOST, PORT, PROMPT
-
+from config.user_settings import USER_DATA
 TIME_OUT = 0.001
 
 

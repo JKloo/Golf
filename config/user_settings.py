@@ -1,3 +1,6 @@
 import settings
 
-NAME = 'Jeff'
+USER_DATA  = {
+    'name': 'Jeff'
+    
+}
