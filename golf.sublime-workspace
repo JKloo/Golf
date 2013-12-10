@@ -1,0 +1,418 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"tas",
+				"tasks"
+			],
+			[
+				"w",
+				"wlist"
+			],
+			[
+				"T",
+				"TIME_OUT"
+			],
+			[
+				"is",
+				"is_alive"
+			],
+			[
+				"th",
+				"threading"
+			],
+			[
+				"ta",
+				"task_r"
+			],
+			[
+				"look",
+				"_look_hand"
+			],
+			[
+				"send",
+				"send_global"
+			],
+			[
+				"end",
+				"end_game"
+			],
+			[
+				"det",
+				"_detect_end_game"
+			],
+			[
+				"for",
+				"format"
+			],
+			[
+				"get",
+				"_get_conn"
+			],
+			[
+				"player",
+				"players"
+			],
+			[
+				"_ini",
+				"_init_game"
+			],
+			[
+				"_init",
+				"_init_player"
+			],
+			[
+				"_in",
+				"_init_players"
+			],
+			[
+				"_get_",
+				"_get_conn"
+			],
+			[
+				"id",
+				"id_"
+			],
+			[
+				"_ma",
+				"_manage_active"
+			],
+			[
+				"N",
+				"NEXT"
+			],
+			[
+				"curr",
+				"curr_plr"
+			],
+			[
+				"pl",
+				"players"
+			],
+			[
+				"NOG",
+				"NO_MSG"
+			],
+			[
+				"re",
+				"recv_plr_msg"
+			],
+			[
+				"play",
+				"player_play"
+			],
+			[
+				"task",
+				"tasks"
+			],
+			[
+				"str",
+				"start"
+			],
+			[
+				"PRO",
+				"PROMPT"
+			],
+			[
+				"CONN",
+				"CONN_K"
+			],
+			[
+				"conne",
+				"connections"
+			],
+			[
+				"conn",
+				"connections"
+			],
+			[
+				"run",
+				"run_send"
+			],
+			[
+				"Echo",
+				"EchoServer"
+			],
+			[
+				"HOST",
+				"HOST"
+			],
+			[
+				"pro",
+				"prompt"
+			],
+			[
+				"vali",
+				"validate"
+			],
+			[
+				"car",
+				"cards"
+			],
+			[
+				"C",
+				"card"
+			],
+			[
+				"is_",
+				"is_face_up"
+			],
+			[
+				"c",
+				"card"
+			],
+			[
+				"a",
+				"active_card"
+			],
+			[
+				"cu",
+				"curr_plr"
+			],
+			[
+				"in",
+				"in"
+			],
+			[
+				"CARD",
+				"CARD_NAMES"
+			],
+			[
+				"htt",
+				"httpd-2"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/Jeff/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/C/cygwin/home/Jeff/git/Golf/golf.sublime-project",
+		"/C/Projects/Golf/network/commands.py",
+		"/C/Projects/Golf/network/settings.py",
+		"/C/Projects/Golf/player.py",
+		"/C/Projects/Golf/game.py",
+		"/C/Projects/Golf/network/golf_server.py",
+		"/C/Projects/Golf/network/golf_client.py",
+		"/C/Projects/Golf/golf.py",
+		"/C/Projects/Golf/deck.py",
+		"/C/Projects/Golf/network/echo_client.py",
+		"/C/Projects/Golf/commands.py",
+		"/C/Projects/Golf/network/echo_server.py",
+		"/C/Users/Jeff/AppData/Roaming/Sublime Text 2/Packages/Color Scheme - Sublime-Bandicoot/Dusk.tmTheme",
+		"/C/Projects/Golf/network/user_settings.py",
+		"/C/Users/Jeff/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/C/cygwin/home/Jeff/.bash_profile",
+		"/C/Projects/Golf/network/chat_server_ex.py",
+		"/C/Projects/Golf/network/__init__.py",
+		"/C/Projects/Golf/golf.sublime-project",
+		"/C/Projects/Golf/hand.py",
+		"/C/Projects/Golf/card.py",
+		"/C/Projects/Golf/__init__.py",
+		"/C/Users/Jeff/Desktop/test.py",
+		"/C/Users/Jeff/Downloads/noname"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"threading",
+			"self.end_game == False",
+			"_NO_END_GAME",
+			"_detect_end_game",
+			"_look_board",
+			"_look_hand",
+			"_hand",
+			"_look",
+			"others",
+			".END_GAME",
+			"END_GAME",
+			"handlers",
+			"r_msgs",
+			"def",
+			"player_play",
+			"):",
+			"]+): ",
+			"CMD_",
+			"active_card",
+			".get_input",
+			"CMD",
+			"CMD_",
+			"commands",
+			"cmd.",
+			"info",
+			"c.C",
+			"c.",
+			"game.",
+			"game",
+			"in_",
+			"):\n",
+			"id_",
+			"manage_player",
+			"game",
+			"GAME",
+			"game",
+			"GAME",
+			"game",
+			"ncons",
+			"n ",
+			"n",
+			" =",
+			"AE81FF",
+			"get_input",
+			"self.SOCK",
+			"sock",
+			"SOCK",
+			"MAXPACKETSIZE",
+			"	",
+			"AE81FF",
+			"const",
+			"FD971F",
+			"66D9EF",
+			"logging.info",
+			"c ",
+			"x",
+			"hide",
+			"is_face_upn",
+			"show",
+			"show()",
+			"\\.up",
+			"[^_]up",
+			"NO_PLAYER",
+			"         ",
+			"              ",
+			"               ",
+			":",
+			"Board",
+			"board",
+			"_card",
+			"shuffle_deck",
+			"create_deck"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"face_down",
+			"is_face_up",
+			"face_up",
+			"\\._up"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 36.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 124.0
+	},
+	"replace":
+	{
+		"height": 66.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true
+}

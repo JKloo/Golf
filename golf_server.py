@@ -22,7 +22,7 @@ READY_S = 2
 
 NO_MSG = ''
 POLL_TIME = 0.1
-GLOBAL_CHAT = ['global', 'all']
+# GLOBAL_CHAT = ['global', 'all']
 
 
 class GolfServer():
@@ -66,38 +66,38 @@ class GolfServer():
                 self.tasks.append(task_p)
         logging.debug("All players connected!")
 
-    def _init_player(self, **kwargs):
-        # prompt for name
-        id_ = kwargs.get(ID_K)
-        name = self.prompt(id_, 'What is your name?')
-        self.game.players[id_].name = name
-        self.game.players[id_].seat = id_
-        self.game.players[id_].other[CONN_K] = self._get_conn(id_)
-        self.game.players[id_].other[STATUS_K] = INIT_S
-        self.send(id_, 'Thanks {0}, you are player {1}'.format(name, id_))
+    # def _init_player(self, **kwargs):
+    #     # prompt for name
+    #     id_ = kwargs.get(ID_K)
+    #     name = self.prompt(id_, 'What is your name?')
+    #     self.game.players[id_].name = name
+    #     self.game.players[id_].seat = id_
+    #     self.game.players[id_].other[CONN_K] = self._get_conn(id_)
+    #     self.game.players[id_].other[STATUS_K] = INIT_S
+    #     self.send(id_, 'Thanks {0}, you are player {1}'.format(name, id_))
 
-        # prompt for cards to flip
-        cards = []
-        while len(cards) < 2:
-            in_ = self.prompt(id_, 'Choose {0} cards to flip, separated by spaces: '.format(str(2-len(cards))))
-            cs = in_.split()
-            for c in cs:
-                try:
-                    c_int = int(c)
-                except:
-                    continue
-                else:
-                    cards.append(c_int)
+    #     # prompt for cards to flip
+    #     cards = []
+    #     while len(cards) < 2:
+    #         in_ = self.prompt(id_, 'Choose {0} cards to flip, separated by spaces: '.format(str(2-len(cards))))
+    #         cs = in_.split()
+    #         for c in cs:
+    #             try:
+    #                 c_int = int(c)
+    #             except:
+    #                 continue
+    #             else:
+    #                 cards.append(c_int)
 
-        for i in cards:
-            self.game.players[id_].hand.cards[i].face_up()
+    #     for i in cards:
+    #         self.game.players[id_].hand.cards[i].face_up()
 
-        # start msg handling thread
-        kwargs = {ID_K: id_}
-        task = threading.Thread(target=self._manage_player, kwargs=kwargs)
-        task.daemon = True
-        task.start()
-        self.tasks.append(task)
+    #     # start msg handling thread
+    #     kwargs = {ID_K: id_}
+    #     task = threading.Thread(target=self._manage_player, kwargs=kwargs)
+    #     task.daemon = True
+    #     task.start()
+    #     self.tasks.append(task)
         # end thread
 
     def _init_game(self):
@@ -108,132 +108,132 @@ class GolfServer():
         self.active_card.face_up()
         self.game = game
 
-    def _manage_player(self, **kwargs):
-        id_ = kwargs.get(ID_K)
-        self.game.players[id_].other[STATUS_K] = READY_S
-        self.send(id_, 'Starting up player {0}!'.format(id_))
-        while not self.end_game:
-            msg = self.listen(id_)
-            logging.debug('received "{0}" from player {1}'.format(msg, id_))
-            if msg in CHAT:
-                self._manage_chat(id_)
-            else:
-                resp = NO_MSG
-                if self.game.curr_plr.seat == id_:
-                    resp = self._manage_active(id_, msg)
-                else:
-                    resp = self._manage_inactive(id_, msg)
-                self.send(id_, resp)
+    # def _manage_player(self, **kwargs):
+    #     id_ = kwargs.get(ID_K)
+    #     self.game.players[id_].other[STATUS_K] = READY_S
+    #     self.send(id_, 'Starting up player {0}!'.format(id_))
+    #     while not self.end_game:
+    #         msg = self.listen(id_)
+    #         logging.debug('received "{0}" from player {1}'.format(msg, id_))
+    #         if msg in CHAT:
+    #             self._manage_chat(id_)
+    #         else:
+    #             resp = NO_MSG
+    #             if self.game.curr_plr.seat == id_:
+    #                 resp = self._manage_active(id_, msg)
+    #             else:
+    #                 resp = self._manage_inactive(id_, msg)
+    #             self.send(id_, resp)
 
-    def _manage_chat(self, id_):
-        ''' '''
-        trg = self.prompt(id_, 'who? ')
-        msg = self.prompt(id_, 'message: ')
-        if trg in GLOBAL_CHAT:
-            self.send_global(msg, id_)
-        else:
-            plrs = [p for p in self.game.players if p.name == trg]
-            if plrs:
-            # silently don't send if the player doesn't exist
-                for p in plrs:
-                    self.send(p.seat, msg)
+    # def _manage_chat(self, id_):
+    #     ''' '''
+    #     trg = self.prompt(id_, 'who? ')
+    #     msg = self.prompt(id_, 'message: ')
+    #     if trg in GLOBAL_CHAT:
+    #         self.send_global(msg, id_)
+    #     else:
+    #         plrs = [p for p in self.game.players if p.name == trg]
+    #         if plrs:
+    #         # silently don't send if the player doesn't exist
+    #             for p in plrs:
+    #                 self.send(p.seat, msg)
 
-    def _manage_active(self, id_, msg):
-        ''' '''
-        resp = NO_MSG
-        plr = self.game.players[id_]
-        if msg in DRAW and not self.drawn:
-            self.drawn = True
-            self.game.deck.discards.append(self.active_card)
-            self.active_card = self.game.deck.draw()[0]
-            self.active_card.face_up()
-            resp = self.active_card.pretty_print()
+    # def _manage_active(self, id_, msg):
+    #     ''' '''
+    #     resp = NO_MSG
+    #     plr = self.game.players[id_]
+    #     if msg in DRAW and not self.drawn:
+    #         self.drawn = True
+    #         self.game.deck.discards.append(self.active_card)
+    #         self.active_card = self.game.deck.draw()[0]
+    #         self.active_card.face_up()
+    #         resp = self.active_card.pretty_print()
 
-        elif msg in TOP:
-            resp = self.active_card.pretty_print()
+    #     elif msg in TOP:
+    #         resp = self.active_card.pretty_print()
 
-        elif msg in SWAP:
-            pos = self.prompt(id_, 'pos: ', int)
-            self.active_card = plr.hand.swap(pos, self.active_card)
-            self.active_card.face_up()
-            self._manage_active(id_, NEXT[0])
+    #     elif msg in SWAP:
+    #         pos = self.prompt(id_, 'pos: ', int)
+    #         self.active_card = plr.hand.swap(pos, self.active_card)
+    #         self.active_card.face_up()
+    #         self._manage_active(id_, NEXT[0])
 
-        elif msg in HAND:
-            resp = self._look_hand(plr)
+    #     elif msg in HAND:
+    #         resp = self._look_hand(plr)
 
-        elif msg in LOOK:
-            resp = self._look_board(self.game.players)
+    #     elif msg in LOOK:
+    #         resp = self._look_board(self.game.players)
 
-        elif msg in NEXT:
-            self.game.next_player()
-            self.end_game = self._detect_end_game()
-            self.drawn = False
+    #     elif msg in NEXT:
+    #         self.game.next_player()
+    #         self.end_game = self._detect_end_game()
+    #         self.drawn = False
 
-        elif msg in HELP:
-            for c in [CHAT, NEXT, QUIT, DRAW, TOP, SWAP, HAND, LOOK, HELP]:
-                self.send(id_, str(c))
+    #     elif msg in HELP:
+    #         for c in [CHAT, NEXT, QUIT, DRAW, TOP, SWAP, HAND, LOOK, HELP]:
+    #             self.send(id_, str(c))
 
-        logging.debug(resp)
-        return resp
+    #     logging.debug(resp)
+    #     return resp
 
-    def _manage_inactive(self, id_, msg):
-        ''' '''
-        invalid_cmds = [SWAP.cmds, NEXT.cmds, DRAW.cmds]
-        flat_ics = [x for xs in invalid_cmds for x in xs]
-        if msg in flat_ics:
-            return 'Wait your turn!'
-        else:
-            return self._manage_active(id_, msg)
+    # def _manage_inactive(self, id_, msg):
+    #     ''' '''
+    #     invalid_cmds = [SWAP.cmds, NEXT.cmds, DRAW.cmds]
+    #     flat_ics = [x for xs in invalid_cmds for x in xs]
+    #     if msg in flat_ics:
+    #         return 'Wait your turn!'
+    #     else:
+    #         return self._manage_active(id_, msg)
 
-    def send(self, id_, msg):
-        while True:
-            try:
-                self._send(id_, msg)
-            except socket.error:
-                pass
-            else:
-                break
+    # def send(self, id_, msg):
+    #     while True:
+    #         try:
+    #             self._send(id_, msg)
+    #         except socket.error:
+    #             pass
+    #         else:
+    #             break
 
-    def _send(self, id_, msg):
-        self._get_conn(id_).sendall(msg)
+    # def _send(self, id_, msg):
+    #     self._get_conn(id_).sendall(msg)
 
-    def send_global(self, msg, sender):
-        for i in range(len(self.connections)):
-            if i != sender:
-                self.send(i, msg)
+    # def send_global(self, msg, sender):
+    #     for i in range(len(self.connections)):
+    #         if i != sender:
+    #             self.send(i, msg)
 
-    def prompt(self, id_, prompt='', cast=str):
-        self.send(id_, prompt)
-        return self.listen(id_, cast)
+    # def prompt(self, id_, prompt='', cast=str):
+    #     self.send(id_, prompt)
+    #     return self.listen(id_, cast)
 
-    def listen(self, id_, cast=str):
-        while True:
-            try:
-                return cast(self._get_input(id_))
-            except socket.error:
-                pass
-            except:
-                self.send(id_, 'Bad input!')
-            else:
-                break
+    # def listen(self, id_, cast=str):
+    #     while True:
+    #         try:
+    #             return cast(self._get_input(id_))
+    #         except socket.error:
+    #             pass
+    #         except:
+    #             self.send(id_, 'Bad input!')
+    #         else:
+    #             break
 
-    def _get_input(self, id_):
-        return self._get_conn(id_).recv(PACKET_SIZE)
+    # def _get_input(self, id_):
+    #     return self._get_conn(id_).recv(PACKET_SIZE)
 
     def _get_conn(self, id_):
         return self.connections[id_][0]
 
-    def _look_hand(self, p):
-        ''' '''
-        resp = '{0}\'s hand:\n{1}'.format(p.name, p.hand.pretty_print())
-        return resp
+    # def _look_hand(self, p):
+    #     ''' '''
+    #     resp = '{0}\'s hand:\n{1}'.format(p.name, p.hand.pretty_print())
+    #     return resp
 
-    def _look_board(self, players):
-        ''' '''
-        resp = ''
-        for p in players:
-            resp = resp + self._look_hand(p)
-        return resp
+    # def _look_board(self, players):
+    #     ''' '''
+    #     resp = ''
+    #     for p in players:
+    #         resp = resp + self._look_hand(p)
+    #     return resp
 
     def _detect_end_game(self):
         ''' Detect the end of the game by checking if all cards are flipped. '''

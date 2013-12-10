@@ -40,8 +40,6 @@ class GolfClient():
         logging.debug('starting receive thread')
         while not self.shutdown:
             msg = self.s.recv(PACKET_SIZE).strip()
-            logging.debug('received message')
-            logging.debug('waht?!?!?')
             if msg:
                 self._handle_message(msg)
             else:
