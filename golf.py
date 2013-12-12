@@ -53,10 +53,10 @@ def play(game):
 
     active_card = game.deck.draw()[0]
     active_card.face_up()
-    while game.curr_plr.seat != END_GAME:
+    while game.active_player.seat != END_GAME:
         # Alert current player
         logging.info(SEP)
-        logging.info('{0}\'s turn.'.format(game.curr_plr.name))
+        logging.info('{0}\'s turn.'.format(game.active_player.name))
         drawn = False
         in_ = ''
         # Wait for player input
@@ -75,13 +75,13 @@ def play(game):
                 logging.info(active_card.pretty_print())
             elif in_ in SWAP:
                 pos = int(raw_input('>> pos: '))
-                active_card = game.curr_plr.hand.swap(pos, active_card)
+                active_card = game.active_player.hand.swap(pos, active_card)
                 active_card.face_up()
                 if END_GAME == _NO_END_GAME:
                     END_GAME = _detect_end_game(game)
                 in_ = NEXT[0]
             elif in_ in HAND:
-                _hand(game.curr_plr)
+                _hand(game.active_player)
             elif in_ in LOOK:
                 _look(game.players)
         # Select next player
@@ -114,10 +114,10 @@ def _quit():
 
 def _detect_end_game(game):
     ''' Detect the end of the game by checking if all cards are flipped. '''
-    if False in [c.is_face_up() for c in game.curr_plr.hand.cards]:
+    if False in [c.is_face_up() for c in game.active_player.hand.cards]:
         return _NO_END_GAME
     else:
-        return game.curr_plr.seat
+        return game.active_player.seat
 
 
 def _hand(p):

@@ -12,6 +12,11 @@ class GolfPlayer(Player):
         self.seat = seat
         self.hand = GolfHand()
         self.score = 0
-        self.other = {}
+        self.other = {'drawn': False}
+
+    def score(self, flipall=False):
+        if flipall:
+            self.hand.flip_all()
+        
 
 NO_PLAYER = GolfPlayer('', -1)

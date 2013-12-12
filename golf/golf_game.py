@@ -10,9 +10,11 @@ from golf_deck import GolfDeck
 class GolfGame(Game):
     def __init__(self, nplayers, ndecks=1):
         ''' '''
+        self.nplayers = nplayers
         self.deck = GolfDeck()
         self.players = [deepcopy(NO_PLAYER) for i in range(nplayers)]
-        self.curr_plr = self.players[0]
+        self.active_player = self.players[0]
+        self.active_card = None
 
     def new_player(self, name, seat):
         ''' '''
@@ -21,3 +23,7 @@ class GolfGame(Game):
                 # if the seat preference is taken, seat in the minimum available seat
                 seat = min([x for x in range(len(self.players)) if self.players[x] == NO_PLAYER])
             self.players[seat] = GolfPlayer(name, seat)
+
+    def next_card(self):
+        if self.active_card:
+            self.deck.

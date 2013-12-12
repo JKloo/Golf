@@ -11,13 +11,17 @@ class Game:
         ''' '''
         self.deck = Deck()
         self.players = [deepcopy(NO_PLAYER) for i in range(nplayers)]
-        self.curr_plr = self.players[0]
+        self.active_player = self.players[0]
+        self.active_card = None
+        self.winner = None
 
     def begin(self, ncards):
         ''' '''
-        self.curr_plr = self.players[0]
+        self.active_player = self.players[0]
         self.deck.shuffle()
         self.deal(ncards)
+        self.active_card = self.deck.draw()[0]
+        self.active_card.face_up()
 
     def deal(self, n):
         ''' '''
@@ -34,8 +38,8 @@ class Game:
 
     def next_player(self):
         ''' '''
-        id_ = self.players.index(self.curr_plr)
+        id_ = self.players.index(self.active_player)
         id_ += 1
         if id_ >= len(self.players):
             id_ = 0
-        self.curr_plr = self.players[id_]
+        self.active_player = self.players[id_]

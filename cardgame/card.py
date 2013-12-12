@@ -16,12 +16,12 @@ class Card:
         return '{0} of {1}'.format(self.get_name(), self.get_suit()) if self._up else HIDDEN
 
     def __int__(self):
-        return self.get_points()
+        return self.get_points() if self._up else 0
 
     def __eq__(self, other):
         ''' '''
         if isinstance(other, Card):
-            return self.get_name() == other.get_name()
+            return self._up and other._up and (self.get_name() == other.get_name())
         return NotImplemented
 
     def __ne__(self, other):
@@ -31,9 +31,9 @@ class Card:
             return r
         return not r
 
-    def pretty_print(self):
-        ''' '''
-        return uic.pretty_print(self._up, self.get_name(), self.get_suit())
+    # def pretty_print(self):
+    #     ''' '''
+    #     return uic.pretty_print(self._up, self.get_name(), self.get_suit())
 
     def face_up(self):
         self._up = True

@@ -9,3 +9,4 @@ _NO_END_GAME = -1
 
 MIN_PLRS = 1
 MAX_PLRS = 4
+TIME_OUT = 0.001

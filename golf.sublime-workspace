@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"get",
+				"get_input"
+			],
+			[
+				"send",
+				"sender"
+			],
+			[
 				"tas",
 				"tasks"
 			],
@@ -32,10 +40,6 @@
 				"_look_hand"
 			],
 			[
-				"send",
-				"send_global"
-			],
-			[
 				"end",
 				"end_game"
 			],
@@ -46,10 +50,6 @@
 			[
 				"for",
 				"format"
-			],
-			[
-				"get",
-				"_get_conn"
 			],
 			[
 				"player",
@@ -187,6 +187,22 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "config/user_settings.py",
+			"settings":
+			{
+				"buffer_size": 58,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "comm/comm.py",
+			"settings":
+			{
+				"buffer_size": 1488,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -212,6 +228,7 @@
 	},
 	"file_history":
 	[
+		"/C/cygwin/home/Jeff/git/Golf/comm/__init__.py",
 		"/C/Users/Jeff/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
 		"/C/cygwin/home/Jeff/git/Golf/golf.sublime-project",
 		"/C/Projects/Golf/network/commands.py",
@@ -255,6 +272,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"msg",
 			"threading",
 			"self.end_game == False",
 			"_NO_END_GAME",
@@ -348,8 +366,63 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "config/user_settings.py",
+					"settings":
+					{
+						"buffer_size": 58,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								58,
+								58
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "comm/comm.py",
+					"settings":
+					{
+						"buffer_size": 1488,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								650,
+								650
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 135.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
